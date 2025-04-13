@@ -1,112 +1,80 @@
 import React, { useState } from "react";
 
-const CalculatriceScientifique = () => {
-  const [input, setInput] = useState("");
+const Calculatrice = () => {
+  const [nombre1, setNombre1] = useState("");
+  const [nombre2, setNombre2] = useState("");
   const [resultat, setResultat] = useState(null);
+  const [erreur, setErreur] = useState("");
 
-  const handleClick = (value) => {
-    setInput((prev) => prev + value);
+  const handleAddition = () => {
+    setErreur("");
+    setResultat(parseFloat(nombre1) + parseFloat(nombre2));
   };
 
-  const handleClear = () => {
-    setInput("");
-    setResultat(null);
+  const handleSoustraction = () => {
+    setErreur("");
+    setResultat(parseFloat(nombre1) - parseFloat(nombre2));
   };
 
-  const handleCalculate = () => {
-    try {
-      const finalResult = eval(input); // ⚠️ à sécuriser dans un vrai projet
-      setResultat(finalResult);
-    } catch (e) {
-      setResultat("Erreur");
+  const handleDivision = () => {
+    if (parseFloat(nombre2) === 0) {
+      setErreur("Division par zéro impossible.");
+      setResultat(null);
+    } else {
+      setErreur("");
+      setResultat(parseFloat(nombre1) / parseFloat(nombre2));
     }
   };
-
-  const handleScientific = (func) => {
-    try {
-      let val = parseFloat(input);
-      if (isNaN(val)) {
-        setResultat("Entrée invalide");
-        return;
-      }
-
-      let res;
-      switch (func) {
-        case "sqrt":
-          res = Math.sqrt(val);
-          break;
-        case "log":
-          res = Math.log10(val);
-          break;
-        case "sin":
-          res = Math.sin(val);
-          break;
-        case "cos":
-          res = Math.cos(val);
-          break;
-        case "tan":
-          res = Math.tan(val);
-          break;
-        default:
-          res = "Erreur";
-      }
-      setResultat(res);
-    } catch (e) {
-      setResultat("Erreur");
-    }
-  };
-
-  const boutons = [1, 2, 3, "+", 4, 5, 6, "-", 7, 8, 9, "*", 0, ".", "/", "^"];
 
   return (
     <div className="container mt-4">
-      <h3>🧠 Calculatrice Scientifique</h3>
+      <h2 className="mb-4">Mini Calculatrice</h2>
 
-      <input
-        type="text"
-        className="form-control mb-3"
-        value={input}
-        readOnly
-        placeholder="0"
-      />
-
-      <div className="row mb-3">
-        {boutons.map((btn, index) => (
-          <div className="col-3 mb-2" key={index}>
-            <button className="btn btn-secondary w-100" onClick={() => handleClick(btn)}>
-              {btn}
-            </button>
-          </div>
-        ))}
-        <div className="col-6">
-          <button className="btn btn-primary w-100" onClick={handleCalculate}>
-            =
-          </button>
-        </div>
-        <div className="col-6">
-          <button className="btn btn-warning w-100" onClick={handleClear}>
-            C
-          </button>
-        </div>
+      <div className="mb-3">
+        <input
+          type="number"
+          className="form-control"
+          placeholder="Nombre 1"
+          value={nombre1}
+          onChange={(e) => setNombre1(e.target.value)}
+        />
       </div>
 
-      <div className="row mb-3">
-        {["sqrt", "log", "sin", "cos", "tan"].map((func, index) => (
-          <div className="col-3 mb-2" key={index}>
-            <button className="btn btn-info w-100" onClick={() => handleScientific(func)}>
-              {func}
-            </button>
-          </div>
-        ))}
+      <div className="mb-3">
+        <input
+          type="number"
+          className="form-control"
+          placeholder="Nombre 2"
+          value={nombre2}
+          onChange={(e) => setNombre2(e.target.value)}
+        />
+      </div>
+
+      <div className="mb-3">
+        <button className="btn btn-success me-2" onClick={handleAddition}>
+          Addition (+)
+        </button>
+        <button className="btn btn-warning me-2" onClick={handleSoustraction}>
+          Soustraction (-)
+        </button>
+        <button className="btn btn-primary" onClick={handleDivision}>
+          Division (/)
+        </button>
       </div>
 
       {resultat !== null && (
-        <div className="alert alert-success">
+        <div className="alert alert-info">
           Résultat : <strong>{resultat}</strong>
+        </div>
+      )}
+
+      {erreur && (
+        <div className="alert alert-danger">
+          <strong>Erreur : </strong>{erreur}
         </div>
       )}
     </div>
   );
 };
 
-export default CalculatriceScientifique;
+export default Calculatrice;
