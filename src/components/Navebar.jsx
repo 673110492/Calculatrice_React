@@ -1,9 +1,10 @@
 import React from "react";
+import Exemple from "../pages/Exemple";
 
 const Navbar = () => {
   return (
     <div>
-        
+
 <nav className="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
         <div className="container-fluid">
           <a className="navbar-brand" href="#">
@@ -89,6 +90,7 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
+      <Exemple/>
     </div>
   );
 };
