@@ -19,11 +19,14 @@ const New= () => {
 
   const handleEqual = () => {
     try {
-      setInput(eval(input).toString());
-    } catch {
+      const res = eval(input).toString();
+      setInput(res);
+    } catch (error) {
+      console.error(error); // Affiche l'erreur dans la console (facultatif)
       setInput("Erreur");
     }
   };
+
   const handleSin = () => {
     try {
       const radians = parseFloat(input) * (Math.PI / 180); // conversion degrés -> radians
@@ -87,10 +90,6 @@ const New= () => {
     }
   };
   
-  
-  
-  
-
   return (
     <div className={`calculatrice ${darkMode ? "dark" : "light"}`}>
       <div className="mode-toggle">

@@ -1,15 +1,18 @@
 
 import './App.css'
 import New from './pages/New'
-import Exemple from './pages/Exemple'
+import Navebar from './components/Navebar'
+import Historique from './pages/Historique'
+
 
 function App() {
 
   return (
     <>
- <New/>
-  
-     
+    <Navebar/>
+    <New/>
+    <Historique/>
+    
     </>
   )
 }
